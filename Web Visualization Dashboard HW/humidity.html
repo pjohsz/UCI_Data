@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Humidity</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css">
+
+	<link rel="stylesheet" type="text/css" href="./styles.css">
+</head>
+<body>
+	<div class="container">
+		<!-- Navigation -->
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="index.html">Latitude Dashboard</a>
+				</div>
+
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Plots <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="temprature.html"><span class="glyphicon glyphicon-fire" aria-hidden="true"></span> Max Temperature</a></li>
+								<li><a href="humidity.html"><span class="glyphicon glyphicon-tint" aria-hidden="true"></span> Humidity</a></li>
+								<li><a href="cloudiness.html"><span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Cloudiness</a></li>
+								<li><a href="windspeed.html"><span class="glyphicon glyphicon-send" aria-hidden="true"></span> Wind Speed</a></li>
+							</ul>
+						</li>
+						<li><a href="comparison.html">Comparison</a></li>
+						<li><a href="data.html">Data</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-8">
+				<h1>Humidity</h1>
+				<hr/>
+				<img class="img-responsive img-center" src="./images/Fig2.png" alt="Humidity Visualization" />
+				<p>As latitude increases, the sun shines more obliquely and provides less warming energy. The equator always faces the sun directly, so the climate is warm year-round.  Because warm air can hold more water vapor than cool air, relative humidity falls when the temperature rises if no moisture is added to the air.</p>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-4">
+				<h2>Visualizations</h2>
+				<hr/>
+				<div class="row">
+					<div class="col-xs-3 col-sm-3 col-md-6">
+						<a href="temprature.html">
+							<img class="img-responsive visualization" src="./images/Fig1.png" alt="Temperature Visualization" />
+						</a>
+					</div>
+					<div class="col-xs-3 col-sm-3 col-md-6">
+						<a href="humidity.html">
+							<img class="img-responsive visualization active" src="./images/Fig2.png" alt="Humidity Visualization" />
+						</a>
+					</div>
+					<div class="col-xs-3 col-sm-3 col-md-6">
+						<a href="cloudiness.html">
+							<img class="img-responsive visualization" src="./images/Fig3.png" alt="Cloudiness Visualization" />
+						</a>
+					</div>
+					<div class="col-xs-3 col-sm-3 col-md-6">
+						<a href="windspeed.html">
+							<img class="img-responsive visualization" src="./images/Fig4.png" alt="Wind Speed Visualization" />
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<footer>
+			<div class="row">
+				<div class="col-xs-12">
+					<hr/>
+					<p class="text-center">© 2018 Johsz</p>
+					<br/>
+				</div>
+			</div>
+		</footer>
+	</div>
+
+	<!-- Optional JavaScript -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</body>
+</html>

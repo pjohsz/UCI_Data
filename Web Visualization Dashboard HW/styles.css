@@ -1,0 +1,28 @@
+.img-center {
+	margin: 0 auto;
+}
+
+.visualization {
+	border: 3px solid transparent;
+}
+.visualization.active{
+	border: 3px solid #1995dc;
+}
+
+.image-left {
+	width: 100%;
+}
+
+@media (min-width: @screen-sm-min) {
+	.image-left {
+		width: 100%;
+	}	
+}
+
+@media (min-width: 992px) { 
+	.image-left {
+		width: 350px;
+		margin-right: 15px;
+		margin-bottom: 15px;
+	}
+}
