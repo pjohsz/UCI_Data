@@ -47,19 +47,22 @@ function renderTable(dtaSet) {
 function handleFilterClick(e) {
   e.preventDefault();
 
-  var fitlerDate = dateInput.value.trim();
+  var filterDate = dateInput.value.trim();
   var selectedState = stateInput.options[
     stateInput.selectedIndex
   ].value.toLowerCase();
 
-  if (fitlerDate.length != 0 && selectedState != "-") {
+  console.log(filterDate);
+  console.log(selectedState);
+
+  if (filterDate.length != 0 && selectedState != "-") {
     // filter by date and state
     filteredUFO = tableData.filter(function(sighting) {
       var sightingDate = sighting.datetime;
       var sightingState = sighting.state;
-      return sightingDate === fitlerDate && sightingState === selectedState;
+      return sightingDate === filterDate && sightingState === selectedState;
     });
-  } else if (fitlerDate.length != 0) {
+  } else if (filterDate.length != 0) {
     filteredUFO = tableData.filter(function(sighting) {
       var sightingDate = sighting.datetime;
       return sightingDate === filterDate;
