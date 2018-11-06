@@ -6,11 +6,17 @@ var tableData = data;
 // Get references to the tbody element and the date of the input
 var tbody = document.querySelector("tbody");
 var dateInput = document.getElementById("datetime");
+var stateInput = document.getElementById("stateFilter");
 
 // Event listener for updates on to the searchButton.
 document
   .getElementById("filter-btn")
   .addEventListener("click", handleSearchButtonClick, false);
+
+// Event listener for state select
+document
+  .getElementById("stateFilter")
+  .addEventListener("change", handleCityChange, false);
 
 // Initial render of the table (all data) renderTable creates the tableData into the tbody
 function renderTable(dtaSet) {
@@ -48,6 +54,25 @@ function handleSearchButtonClick(e) {
     });
   } else {
     fileredUFO = dataSet;
+  }
+
+  renderTable(filteredUFO);
+}
+
+function handleCityChange(e) {
+  e.preventDefault();
+
+  var selectedState = stateInput.options[
+    stateInput.selectedIndex
+  ].value.toLowerCase();
+
+  if (selectedState != "-") {
+    filteredUFO = tableData.filter(function(sighting) {
+      var sightingState = sighting.state;
+      return sightingState === selectedState;
+    });
+  } else {
+    filteredUFO = dataSet;
   }
 
   renderTable(filteredUFO);
