@@ -1,13 +1,20 @@
-var width = parseInt(d3.select('#scatter')
-    .style("width"));
+var width = parseInt(d3.select("#scatter")
+  .style("width"));
 
-var height = width / 3.9;
+// graph height
+var height = width - width / 3.9;
+
+// graph margin
 var margin = 20;
-var labelArea = 110;
-var tPadBot = 45;
-var tPadBot = 40;
 
-// Create the actual canvas for the graph
+// label area
+var labelArea = 110;
+
+// text padding 
+var tPadBot = 40;
+var tPadLeft = 40;
+
+// generate canvas for graph
 var svg = d3
   .select("#scatter")
   .append("svg")
@@ -15,7 +22,8 @@ var svg = d3
   .attr("height", height)
   .attr("class", "chart");
 
-// Set the radius 
+// circle radius setup.
+
 var circRadius;
 function crGet() {
   if (width <= 530) {
@@ -27,11 +35,11 @@ function crGet() {
 }
 crGet();
 
-// Axes labels
-
+// bottom access labels
 svg.append("g").attr("class", "xText");
-
 var xText = d3.select(".xText");
+
+// place the text for the xaxis at the bottom of the chart.
 
 function xTextRefresh() {
   xText.attr(
@@ -45,8 +53,8 @@ function xTextRefresh() {
 }
 xTextRefresh();
 
-// Append SVG files
-
+// Text SVG files (3), with y coordinates
+// poverty
 xText
   .append("text")
   .attr("y", -26)
@@ -54,7 +62,7 @@ xText
   .attr("data-axis", "x")
   .attr("class", "aText active x")
   .text("In Poverty (%)");
-
+// age
 xText
   .append("text")
   .attr("y", 0)
@@ -62,7 +70,7 @@ xText
   .attr("data-axis", "x")
   .attr("class", "aText inactive x")
   .text("Age (Median)");
-
+// Income
 xText
   .append("text")
   .attr("y", 26)
@@ -71,15 +79,17 @@ xText
   .attr("class", "aText inactive x")
   .text("Household Income (Median)");
 
+// Left Axis setup
+
 var leftTextX = margin + tPadLeft;
 var leftTextY = (height + labelArea) / 2 - labelArea;
 
-
+// Left axis append to left of the chart.
 svg.append("g").attr("class", "yText");
 
 var yText = d3.select(".yText");
 
-
+// refresh the text depending on selection
 function yTextRefresh() {
   yText.attr(
     "transform",
@@ -88,6 +98,8 @@ function yTextRefresh() {
 }
 yTextRefresh();
 
+// Append text for y axis
+// Obesity
 yText
   .append("text")
   .attr("y", -26)
@@ -96,6 +108,7 @@ yText
   .attr("class", "aText active y")
   .text("Obese (%)");
 
+// Smokes
 yText
   .append("text")
   .attr("x", 0)
@@ -104,6 +117,7 @@ yText
   .attr("class", "aText inactive y")
   .text("Smokes (%)");
 
+// Lacks Healthcare
 yText
   .append("text")
   .attr("y", 26)
@@ -112,74 +126,86 @@ yText
   .attr("class", "aText inactive y")
   .text("Lacks Healthcare (%)");
 
-// Import our CSV data 
-d3.csv("assets/data/data.csv").then(function(data) {
+// Import .csv file.
 
+d3.csv("assets/data/data.csv").then(function(data) {
 // Visualize the data
   visualize(data);
 });
 
-function visualize(theData) {
+// Visualization function
 
+function visualize(theData) {
   var curX = "poverty";
   var curY = "obesity";
 
+// Save empty variables for the min and max values of x and y.
   var xMin;
   var xMax;
   var yMin;
   var yMax;
 
+  // Set up tooltip rules
   var toolTip = d3
     .tip()
     .attr("class", "d3-tip")
     .offset([40, -60])
     .html(function(d) {
+      // x key
       var theX;
-      
+      // Get state name.
       var theState = "<div>" + d.state + "</div>";
-      
+      // Snatch the y value's key and value.
       var theY = "<div>" + curY + ": " + d[curY] + "%</div>";
-      
+      // If the x key is poverty
       if (curX === "poverty") {
+        // Grab the x key and a version of the value formatted to show percentage
         theX = "<div>" + curX + ": " + d[curX] + "%</div>";
       }
       else {
+        // Otherwise
+        // Grab the x key and a version of the value formatted to include commas after every third digit.
         theX = "<div>" +
           curX +
           ": " +
           parseFloat(d[curX]).toLocaleString("en") +
           "</div>";
       }
-      
+      // Display what we capture.
       return theState + theX + theY;
     });
- 
+  // Call the toolTip function.
   svg.call(toolTip);
-  
+
+  // a. change the min and max for x
   function xMinMax() {
-  
+    // min will grab the smallest datum from the selected column.
     xMin = d3.min(theData, function(d) {
       return parseFloat(d[curX]) * 0.90;
     });
 
+    // .max will grab the largest datum from the selected column.
     xMax = d3.max(theData, function(d) {
       return parseFloat(d[curX]) * 1.10;
     });
   }
 
+  // b. change the min and max for y
   function yMinMax() {
-    
+    // min will grab the smallest datum from the selected column.
     yMin = d3.min(theData, function(d) {
       return parseFloat(d[curY]) * 0.90;
     });
 
+    // .max will grab the largest datum from the selected column.
     yMax = d3.max(theData, function(d) {
       return parseFloat(d[curY]) * 1.10;
     });
   }
 
+  // c. change the classes (and appearance) of label text when clicked.
   function labelChange(axis, clickedText) {
-    
+    // Switch the currently active to inactive.
     d3
       .selectAll(".aText")
       .filter("." + axis)
@@ -187,13 +213,16 @@ function visualize(theData) {
       .classed("active", false)
       .classed("inactive", true);
 
-    
+    // Switch the text just clicked to active.
     clickedText.classed("inactive", false).classed("active", true);
   }
+
+  // Instantiate the Scatter Plot
 
   xMinMax();
   yMinMax();
 
+ // create scales.
   var xScale = d3
     .scaleLinear()
     .domain([xMin, xMax])
@@ -201,11 +230,14 @@ function visualize(theData) {
   var yScale = d3
     .scaleLinear()
     .domain([yMin, yMax])
+    // Height is inverses due to how d3 calc's y-axis placement
     .range([height - margin - labelArea, margin]);
 
+  // pass the scales into the axis methods to create the axes.
   var xAxis = d3.axisBottom(xScale);
   var yAxis = d3.axisLeft(yScale);
 
+  // x and y tick counts.
   function tickCount() {
     if (width <= 500) {
       xAxis.ticks(5);
@@ -218,6 +250,7 @@ function visualize(theData) {
   }
   tickCount();
 
+  // We append the axes in group elements.
   svg
     .append("g")
     .call(xAxis)
@@ -229,8 +262,10 @@ function visualize(theData) {
     .attr("class", "yAxis")
     .attr("transform", "translate(" + (margin + labelArea) + ", 0)");
 
+  // grouping dots and labels.
   var theCircles = svg.selectAll("g theCircles").data(theData).enter();
 
+  // append circles 
   theCircles
     .append("circle")
     // These attr's specify location, size and class.
@@ -244,22 +279,28 @@ function visualize(theData) {
     .attr("class", function(d) {
       return "stateCircle " + d.abbr;
     })
-    
+    // Hover rules
     .on("mouseover", function(d) {
+      // Show the tooltip
       toolTip.show(d, this);
+      // Highlight the state circle's border
       d3.select(this).style("stroke", "#323232");
     })
     .on("mouseout", function(d) {
+      // Remove the tooltip
       toolTip.hide(d);
+      // Remove highlight
       d3.select(this).style("stroke", "#e3e3e3");
     });
 
+  // labels.
   theCircles
     .append("text")
-   
+    // Return the abbreviation to .text, which makes the text the abbreviation.
     .text(function(d) {
       return d.abbr;
     })
+    // Place text
     .attr("dx", function(d) {
       return xScale(d[curX]);
     })
@@ -268,29 +309,46 @@ function visualize(theData) {
     })
     .attr("font-size", circRadius)
     .attr("class", "stateText")
+    // Hover Rules
     .on("mouseover", function(d) {
+      // Show the tooltip
       toolTip.show(d);
+      // Highlight the state circle's border
       d3.select("." + d.abbr).style("stroke", "#323232");
     })
     .on("mouseout", function(d) {
+      // Remove tooltip
       toolTip.hide(d);
+      // Remove highlight
       d3.select("." + d.abbr).style("stroke", "#e3e3e3");
     });
 
+  // Select all axis text and add this d3 click event.
   d3.selectAll(".aText").on("click", function() {
-
     var self = d3.select(this);
 
     if (self.classed("inactive")) {
+      // name and axis saved in label.
       var axis = self.attr("data-axis");
       var name = self.attr("data-name");
 
+      // When x is the saved axis, execute this:
       if (axis === "x") {
+        // Make curX the same as the data name.
         curX = name;
+
+        // Change the min and max of the x-axis
         xMinMax();
+
+        // Update the domain of x.
         xScale.domain([xMin, xMax]);
+
+        // Now use a transition when we update the xAxis.
         svg.select(".xAxis").transition().duration(300).call(xAxis);
+
+        // With the axis changed, let's update the location of the state circles.
         d3.selectAll("circle").each(function() {
+
           d3
             .select(this)
             .transition()
@@ -301,6 +359,7 @@ function visualize(theData) {
         });
 
         d3.selectAll(".stateText").each(function() {
+          
           d3
             .select(this)
             .transition()
@@ -310,16 +369,20 @@ function visualize(theData) {
             .duration(300);
         });
 
+        // change the classes of the last active label and the clicked label.
         labelChange(axis, self);
       }
       else {
 
         curY = name;
 
+        // Change the min and max of the y-axis.
         yMinMax();
 
+        // Update the domain of y.
         yScale.domain([yMin, yMax]);
 
+        // Update Y Axis
         svg.select(".yAxis").transition().duration(300).call(yAxis);
 
         d3.selectAll("circle").each(function() {
@@ -333,8 +396,8 @@ function visualize(theData) {
             .duration(300);
         });
 
+        // We need change the location of the state texts, too.
         d3.selectAll(".stateText").each(function() {
-
           d3
             .select(this)
             .transition()
@@ -344,14 +407,14 @@ function visualize(theData) {
             .duration(300);
         });
 
-       labelChange(axis, self);
+        labelChange(axis, self);
       }
     }
   });
 
   d3.select(window).on("resize", resize);
 
- function resize() {
+  function resize() {
     width = parseInt(d3.select("#scatter").style("width"));
     height = width - width / 3.9;
     leftTextY = (height + labelArea) / 2 - labelArea;
